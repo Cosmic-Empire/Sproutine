@@ -33,7 +33,6 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true)
   const [completed, setCompleted] = useState(false)
   const [posting, setPosting] = useState(false)
-  const [previewTick, setPreviewTick] = useState(-1)
 
   const today = new Date().toISOString().slice(0, 10)
 
@@ -119,13 +118,7 @@ export default function HomePage() {
     return count
   })()
 
-  const MONTH_NAMES = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
-  const stageStreaks = [0, 2, 5, 10, 20, 35]
   const currentMonth = new Date().getMonth() + 1
-  const previewStage = previewTick >= 0 ? previewTick % 6 : null
-  const previewMonthOffset = previewTick >= 0 ? Math.floor(previewTick / 6) : 0
-  const displayStreak = previewStage !== null ? stageStreaks[previewStage] : streak
-  const displayMonth = previewStage !== null ? ((currentMonth - 1 + previewMonthOffset) % 12) + 1 : currentMonth
 
   if (loading) {
     return (
@@ -182,20 +175,20 @@ export default function HomePage() {
             </div>
 
             {/* Plant Stage Graphic */}
-            <div className="w-full flex items-center justify-center mb-3 overflow-visible" style={{ height: `${200 + getStage(displayStreak) * 30}px`, transition: "height 0.5s cubic-bezier(0.16, 1, 0.3, 1)" }}>
-              <PlantStage streak={displayStreak} completed={completed} month={displayMonth} />
+            <div className="w-full flex items-center justify-center mb-3 overflow-visible" style={{ height: `${200 + getStage(streak) * 30}px`, transition: "height 0.5s cubic-bezier(0.16, 1, 0.3, 1)" }}>
+              <PlantStage streak={streak} completed={completed} month={currentMonth} />
             </div>
 
             {/* Streak metrics block */}
             <div className="flex flex-col items-center text-center gap-1">
               <span className="display text-6xl font-black text-[#F3F4F6] leading-none">
-                {displayStreak}
+                {streak}
               </span>
               <span className="text-[10px] font-semibold uppercase tracking-widest text-[#9CA3AF]">
                 Day Streak
               </span>
               <span className="text-xs text-[#9CA3AF] mt-1.5 font-semibold bg-white/[0.03] px-3.5 py-1 rounded-full border border-white/5">
-                {STAGE_NAMES[getStage(displayStreak)]}
+                {STAGE_NAMES[getStage(streak)]}
               </span>
             </div>
           </div>
@@ -269,20 +262,6 @@ export default function HomePage() {
           </motion.div>
         </div>
       </motion.div>
-
-      {/* ── Stage test toggle (development only) ── */}
-      <div
-        onClick={() => setPreviewTick((t) => t >= 11 ? -1 : t + 1)}
-        className="fixed bottom-24 left-1/2 -translate-x-1/2 z-30 cursor-pointer select-none px-3 py-1 rounded-full text-[10px] font-mono tracking-wider uppercase"
-        style={{
-          background: previewStage !== null ? "rgba(16,185,129,0.15)" : "rgba(255,255,255,0.04)",
-          color: previewStage !== null ? "#10B981" : "rgba(255,255,255,0.25)",
-          border: previewStage !== null ? "1px solid rgba(16,185,129,0.25)" : "1px solid rgba(255,255,255,0.06)",
-          backdropFilter: "blur(8px)",
-        }}
-      >
-        {previewStage !== null ? `s${previewStage} ${MONTH_NAMES[displayMonth - 1]}` : "test"}
-      </div>
 
     </>
   )
