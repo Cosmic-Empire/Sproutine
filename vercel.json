@@ -1,0 +1,24 @@
+{
+  "crons": [
+    {
+      "path": "/api/notify?cron_secret=@cron_secret",
+      "schedule": "0 16 * * *",
+      "description": "12:00 ET (EDT) / 11:00 ET (EST)"
+    },
+    {
+      "path": "/api/notify?cron_secret=@cron_secret",
+      "schedule": "0 18 * * *",
+      "description": "14:00 ET (EDT) / 13:00 ET (EST)"
+    },
+    {
+      "path": "/api/notify?cron_secret=@cron_secret",
+      "schedule": "0 20 * * *",
+      "description": "16:00 ET (EDT) / 15:00 ET (EST)"
+    },
+    {
+      "path": "/api/notify?cron_secret=@cron_secret",
+      "schedule": "30 21 * * *",
+      "description": "17:30 ET (EDT) / 16:30 ET (EST)"
+    }
+  ]
+}
